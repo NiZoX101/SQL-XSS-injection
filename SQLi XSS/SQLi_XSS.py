@@ -1,7 +1,7 @@
 import requests
 import re
 from bs4 import BeautifulSoup as bs
-from urllib.parse import urljoin, urlparse, urlencode, urlunparse, parse_qs,quote
+from urllib.parse import urljoin, urlparse
 from pprint import pprint
 s = requests.Session()
 s.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
@@ -161,7 +161,7 @@ try:
 		}
 		for error in errors:
 			if error in response.content.decode().lower():
-				print(response.content.decode().lower())
+				#print(response.content.decode().lower())
 				return True
 		return False
 
@@ -234,6 +234,7 @@ try:
 			elif form_details["method"] == "get":
 				res=s.get(target_url, params=data)
 
+			res = s.get(url)
 			if xss_payload in res.text:
 				print("\033[92m [+] Stored XSS Vulnerability detected in form:", target_url)
 				pprint(form_details)
@@ -276,8 +277,8 @@ try:
 
 
 	if __name__ == "__main__":
-		#start_url="http://10.10.48.63/DVWA/"
-		start_url="http://192.168.0.153/DVWA/"
+		start_url="http://10.10.48.63/DVWA/"
+		#start_url="http://192.168.0.153/DVWA/"
 		set_security_level(start_url,'low')
 		internal_forms=get_all_internal_forms(start_url)
 		print(internal_forms)
